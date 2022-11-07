@@ -1,6 +1,3 @@
-from pprint import pprint as pp
-
-
 class Flight:
     def __init__(self, flight_number, airplane):
         self.airplane = airplane
@@ -83,57 +80,3 @@ class Flight:
     def print_cards(self, card_printer):
         for seat, passenger in self._get_passengers():
             card_printer(passenger, seat, self.flight_number, self.get_plane())
-
-
-class Airplane(object, metaclass=type):  # __init__ jest w object
-    def get_num_seats(self):
-        rows, seats = self.seating_plan()
-        return len(rows) * len(seats)
-
-
-class Boeing737Max(Airplane):
-    @staticmethod  # Nie potrzebuje obiektu, żeby ją wywołać
-    def get_name():
-        return 'Boeing737Max'
-
-    @staticmethod
-    def seating_plan():
-        return range(1, 26), 'ABCDEG'
-
-
-class AirbusA380(Airplane):
-    @staticmethod  # Nie potrzebuje obiektu, żeby ją wywołać
-    def get_name():
-        return 'AirbusA380'
-
-    @staticmethod
-    def seating_plan():
-        return range(1, 51), 'ABCDEGHJK'
-
-
-def printer(passenger, seat, flight_number, airplane):
-    text = f'| Passenger: {passenger}, seat: {seat}, {flight_number}/{airplane} |'
-    border = f'+{"-" * (len(text) - 2)}+'
-    line = f'|{" " * (len(text) - 2)}|'
-
-    frame = '\n'.join([border, line, text, line, border])
-    print(frame)
-
-
-boeing = Boeing737Max()
-airbus = AirbusA380()
-f = Flight('BA128', boeing)
-# print(f.get_airline())
-# print(f.get_number())
-# print(f.get_plane())
-
-f.allocate_passenger('12C', 'saek')
-f.allocate_passenger('1A', 'lechu')
-f.allocate_passenger('25G', 'jaro')
-f.relocate_passenger('25G', '12A')
-
-# pp(f.count_empty_seats())
-
-# printer('Jarosław', '12C', 'LO27', 'Cessna')
-
-f.print_cards(printer)
